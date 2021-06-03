@@ -2,7 +2,6 @@ import streamlit as st
 from PIL import Image, ImageFilter,ImageFont,ImageDraw
 import base64
 from io import BytesIO
-from bokeh.models.widgets import ColorPicker
 def app():
     st.markdown(
         """
