@@ -1,5 +1,7 @@
 import streamlit as st
 from PIL import Image,ImageDraw
+import base64 
+from io import BytesIO
 def app():
     st.markdown(
         """
@@ -39,3 +41,8 @@ def app():
             draw.ellipse((140, 50, 260, 170), fill=255)
             im = Image.composite(im1, im2, mask)
             st.image(im)
+    buffered = BytesIO()
+    im.save(buffered, format="JPEG")
+    img_str = base64.b64encode(buffered.getvalue()).decode()
+    href = f'<a href="data:file/jpg;base64,{img_str}" download="final image.jpg"><h1>Download final image</h1></a>'
+    st.markdown(href, unsafe_allow_html=True)
