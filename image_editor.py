@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image, ImageFilter,ImageFont,ImageDraw
+from PIL import Image, ImageFilter,ImageFont,ImageDraw,ImageOps
 import base64
 from io import BytesIO
 def app():
@@ -90,11 +90,15 @@ def app():
             img=img.transpose(Image.FLIP_TOP_BOTTOM)
         elif option2=='ROTATE_90':
             img=img.transpose(Image.ROTATE_90)
+        st.title("Add border")
+        a=st.slider("border width",1,100)
+        img = ImageOps.expand(img, border=int(a), fill=(75, 100, 0))
         st.image(img)
         st.subheader("size")
         st.text(img.size)
         st.subheader("mode")
         st.text(img.mode)
+
         # st.text(img.format)
         buffered = BytesIO()
         img.save(buffered, format="JPEG")
