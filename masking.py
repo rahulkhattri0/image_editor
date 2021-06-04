@@ -43,7 +43,7 @@ def app():
             im2=im2.resize(im1.size)
             mask = Image.new("L", im1.size, 0)
             draw = ImageDraw.Draw(mask)
-            draw.ellipse((140, 50, 260, 170), fill=255)
+            draw.ellipse((100, 100, 200, 200), fill=255)
             im = Image.composite(im1, im2, mask)
             st.image(im)
             buffered = BytesIO()
