@@ -101,7 +101,10 @@ def app():
 
         # st.text(img.format)
         buffered = BytesIO()
-        img.save(buffered, format="JPEG")
+        if img.format=='JPEG':
+            img.save(buffered, format="JPEG")
+        elif img.format=='PNG':
+            img.save(buffered,format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode()
         href = f'<a href="data:file/jpg;base64,{img_str}" download="final image.jpg"><h1>Download final image</h1></a>'
         st.markdown(href, unsafe_allow_html=True)
