@@ -7,7 +7,7 @@ def app():
         """
         <style>
         .reportview-container {
-            background: url("https://images.unsplash.com/photo-1542124292-60272943a355?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80") no-repeat center fixed;
+            background: url("https://images.unsplash.com/photo-1576502200916-3808e07386a5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1046&q=80") no-repeat center fixed;
             background-size: cover;
         }
     .sidebar .sidebar-content {
@@ -24,7 +24,7 @@ def app():
     img_file=get_image()
     if img_file:
         img=Image.open(img_file)
-        
+        img_format = img.format
         st.title("FILTERS")
         option=st.selectbox("...",("none",'SHARPEN','SMOOTH','EMBOSS','CONTOUR','BLUR','BOX BLUR','EDGE ENHANCE'))
         if option=='SHARPEN':
@@ -80,7 +80,10 @@ def app():
         elif choice=="ZCOOLKuaiLe-Regular":
             font=ImageFont.truetype('ZCOOLKuaiLe-Regular.ttf',int(f))
         writer=ImageDraw.Draw(img)
-        writer.text((100,100),t,font=font,fill=(255,0,255))
+        st.subheader("position of text")
+        x3=st.slider("enter x1",1,img.width)
+        y3=st.slider("enter y2",1,img.height)
+        writer.text((x3,y3),t,font=font,fill=(255,0,255))
         
         st.title("FLIP THE IMAGE")
         option2=st.selectbox("",("none",'FLIP_LEFT_RIGHT','FLIP_TOP_BOTTOM','ROTATE_90'))
@@ -99,13 +102,8 @@ def app():
         st.subheader("mode")
         st.text(img.mode)
 
-        # st.text(img.format)
         buffered = BytesIO()
-        if img.format=='JPEG':
-            img.save(buffered, format="JPEG")
-        elif img.format=='PNG':
-            img.save(buffered,format="PNG")
+        img.save(buffered, format=img_format)
         img_str = base64.b64encode(buffered.getvalue()).decode()
-        href = f'<a href="data:file/jpg;base64,{img_str}" download="final image.jpg"><h1>Download final image</h1></a>'
+        href = f'<a href="data:file/{img_format};base64,{img_str}" download="final image.{img_format}"><h1>Download final image</h1></a>'
         st.markdown(href, unsafe_allow_html=True)
-        
